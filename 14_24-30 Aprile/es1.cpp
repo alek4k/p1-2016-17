@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
  
-int * IC(int*C, int*X, int & lim) {
+void IC(int*C, int*X, int & lim) {
     int i = 0, y = 0, count = 0;
     bool newseq = true;
     while (C[i] != -2) {
@@ -27,7 +27,7 @@ int * IC(int*C, int*X, int & lim) {
         }
         i += 1;
     }
-    return X;
+    return;
 }
 
 main()
@@ -37,9 +37,8 @@ main()
   for(int i=0; x!=-2; i++)
    {cin>>x; C[i]=x;}
   cout<<"start"<<endl;
-  int *newX = IC(C,X,lim);//da fare
+  IC(C,X,lim);
   for(int i=0; i<lim; i++)
-    cout<<newX[i*2]<<' '<<newX[i*2+1]<<endl;
+    cout<<X[i*2]<<' '<<X[i*2+1]<<endl;
   cout<<"end"<<endl;
 }
-
