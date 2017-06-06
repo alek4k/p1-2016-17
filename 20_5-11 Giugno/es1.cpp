@@ -30,10 +30,8 @@ void  mleaf(nodo* r, int prof, int & minprof, nodo *&minleaf) {
         return;
     
     if (!r->left && !r->right) {
-        if (!minleaf || minprof > prof) {
             minprof = prof;
             minleaf = r;
-        }
     }
     else {
         if (r->left)
