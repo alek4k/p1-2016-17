@@ -26,20 +26,19 @@ nodo* parse(char*& A)
       throw (4);
 }
 
-int stampaConSalti(nodo* r, int k, int &salto) {
-	
+int stampaConSalti(nodo* r, int k, int salto) {
 	if (r->left)
-		stampaConSalti(r->left, k, salto);
-	
+	    salto =	stampaConSalti(r->left, k, salto);
+	    
 	if (salto == 1) {
 		cout << r->info << " ";
 		salto = k;
 	}
 	else
 		salto -= 1;
-	
+		
 	if (r->right)
-		stampaConSalti(r->right, k, salto);
+		salto = stampaConSalti(r->right, k, salto);
 	
 	return salto;
 }
