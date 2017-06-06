@@ -26,21 +26,21 @@ nodo* parse(char*& A)
 }
 
 void  mleaf(nodo* r, int prof, int & minprof, nodo *&minleaf) {
-    if (r) {
-        if (!r->left && !r->right) {
-            if (minleaf && prof >= minprof)
-                return;
-            else {
-                minprof = prof;
-                minleaf = r;
-                return;
-            }
-        }
-        mleaf (r->left, prof + 1, minprof, minleaf);
-        mleaf (r->right, prof + 1, minprof, minleaf);
-    }
+    if (minleaf && prof >= minprof)
+        return;
     
-    if (!minleaf) minprof = -1;
+    if (!r->left && !r->right) {
+        if (!minleaf || minprof > prof) {
+            minprof = prof;
+            minleaf = r;
+        }
+    }
+    else {
+        if (r->left)
+            mleaf (r->left, prof + 1, minprof, minleaf);
+        if (r->right)
+            mleaf (r->right, prof + 1, minprof, minleaf);
+    }
 }
 
 main() {
