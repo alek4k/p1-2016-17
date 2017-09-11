@@ -1,3 +1,8 @@
+// TERZO APPELLO 2017
+//
+// Traccia:
+// https://elearning.studenti.math.unipd.it/labs/pluginfile.php/5834/mod_vpl/intro/testo-28-8-2017-T1.pdf
+
 #include<iostream>
 using namespace std;
 
@@ -19,7 +24,6 @@ nodo* build(int n)
 void stampa_DN(doppioN A)
 {
 	cout<<"valore DN:"<<A.inizio->info<<' '<<A.fine->info<<" lung="<<A.lung<<endl;
-	
 }
 
 void stampaL(nodo*L)
@@ -122,22 +126,12 @@ nodo* Giter(nodo*& L, doppioN  A) {
 
 nodo* Grec(nodo*& L, doppioN  A) {
 	if (L == A.inizio) {
-		if (A.lung == 1) {
-			L = L->next;
-			A.fine->next = 0;
-			return A.inizio;
-		}
-		else
-			return A.fine->next;
+		L = A.fine->next;
+		A.fine->next = 0;
+		return A.inizio;
 	}
 	
-	if (L->next == A.inizio)
-		L->next = Grec(L->next, A);
-	else
-		Grec(L->next, A);
-	
-	A.fine->next = 0;
-	return A.inizio;
+	Grec(L->next, A);
 }
 
 int main()
