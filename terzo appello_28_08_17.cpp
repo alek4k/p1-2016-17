@@ -72,13 +72,31 @@ doppioN Fiter(nodo*L) {
 	return result;
 }
 
-doppioN Aux(nodo*L) {
-	if (!L->next || L->next->info < L->info) {
-		doppioN end;
-		end.inizio = end.fine = L;
-		end.lung = 1;
-		return end;
+doppioN Fiter2(nodo*C) {
+	doppioN B;
+	nodo *x = C;
+	int best = 0;
+	
+	while (x) {
+		nodo *i = x, *f = x;
+		int n = 1;
+		while (f->next && f->next->info >= f->info) {
+			f = f->next;
+			n++;
+		}
+		if (n > B.lung) {
+			B.inizio = i;
+			B.fine = f;
+			B.lung = n;
+		}
+		x = f->next;
 	}
+	return B;
+}
+
+doppioN Aux(nodo*L) {
+	if (!L->next || L->next->info < L->info)
+		return doppioN(L, L , 1);
 	
 	doppioN result;
 	result.inizio = L;
@@ -89,26 +107,43 @@ doppioN Aux(nodo*L) {
 	return result;
 }
 
+doppioN Aux2(nodo*x) {
+	if (!x->next || x->next->info < x->info)
+		return doppioN(x,x,1);
+	
+	doppioN y = Aux2(x->next);
+	y.inizio = x;
+	y.lung ++;
+	
+	return y;
+}
+
 doppioN Frec(nodo*L) {
-	if (!L->next) {
-		doppioN z;
-		z.inizio = z.fine = L;
-		z.lung = 1;
-		return z;
-	}
+	if (!L->next)
+		return doppioN(L, L, 1);
 	
 	doppioN result = Aux(L);
 	
 	doppioN ric = Frec(L->next);
-	if (result.lung < ric.lung) {
+	if (result.lung < ric.lung)
 		result = ric;
-	}
 	
 	return result;
 }
 
+doppioN Frec2(nodo *C) {
+	if (!C) return doppioN();
+	
+	doppioN x = Aux(C);
+	
+	doppioN y = Frec(x.fine->next);
+	if (x.lung >= y.lung)
+		return x;
+	else
+		return y;
+}
+
 nodo* Giter(nodo*& L, doppioN  A) {
-	bool stop = false;
 	nodo* T = L;
 	
 	if (L == A.inizio)
@@ -124,6 +159,23 @@ nodo* Giter(nodo*& L, doppioN  A) {
 	return A.inizio;
 }
 
+nodo* Giter2(nodo*& C, doppioN A) {
+	if (A.inizio == C) {
+		C = A.fine->next;
+		A.fine->next = 0;
+		return A.inizio;
+	}
+	else {
+		nodo* x = C;
+		while(x->next != A.inizio) 
+			x = x->next;
+		
+		x->next = A.fine->next;
+		A.fine->next = 0;
+		return A.inizio;
+	}
+}
+
 nodo* Grec(nodo*& L, doppioN  A) {
 	if (L == A.inizio) {
 		L = A.fine->next;
@@ -132,6 +184,16 @@ nodo* Grec(nodo*& L, doppioN  A) {
 	}
 	
 	Grec(L->next, A);
+}
+
+nodo* Grec2(nodo*& C, doppioN A) {
+	if (C == A.inizio) {
+		C = A.fine->next;
+		A.fine->next = 0;
+		return A.inizio;
+	}
+	
+	else return Grec (C->next, A);
 }
 
 int main()
